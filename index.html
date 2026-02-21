@@ -12,7 +12,6 @@
         background: #eef1f7;
       }
 
-      /* HEADER */
       header {
         background: #0a1f44;
         color: white;
@@ -21,8 +20,8 @@
         display: flex;
         align-items: center;
         gap: 15px;
-        position: relative; /* thêm */
-        overflow: hidden; /* thêm */
+        position: relative;
+        overflow: hidden;
       }
 
       .logo {
@@ -31,7 +30,6 @@
         object-fit: contain;
       }
 
-      /* 🐰 CON THỎ CHẠY */
       .rabbit-run {
         position: absolute;
         top: 5px;
@@ -57,7 +55,6 @@
         }
       }
 
-      /* NAV */
       nav {
         background: #132c63;
         padding: 12px;
@@ -76,7 +73,6 @@
         color: #ffd700;
       }
 
-      /* TAB */
       .section {
         display: none;
       }
@@ -84,7 +80,6 @@
         display: block;
       }
 
-      /* SEARCH */
       .search-box {
         width: 60%;
         margin: 25px auto;
@@ -112,7 +107,6 @@
         cursor: pointer;
       }
 
-      /* GRID */
       .grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -120,7 +114,6 @@
         padding: 30px;
       }
 
-      /* CARD */
       .card {
         background: white;
         border-radius: 14px;
@@ -160,7 +153,6 @@
         font-weight: bold;
         margin-left: 10px;
       }
-
       .voucher {
         background: #ffd700;
         padding: 4px 8px;
@@ -169,7 +161,6 @@
         font-size: 13px;
       }
 
-      /* MODAL */
       .modal {
         position: fixed;
         top: 0;
@@ -197,7 +188,6 @@
         cursor: pointer;
       }
 
-      /* OVERLAY */
       .overlay {
         position: absolute;
         top: 0;
@@ -237,9 +227,7 @@
 
   <body>
     <header>
-      <!-- 🐰 THỎ -->
       <img src="./rabbit.png" class="rabbit-run" />
-
       <img src="./trung.png" class="logo" />
       Báo Xuân Trung 24h
     </header>
@@ -334,6 +322,7 @@
 
     <script>
       const shopeeLink = "https://s.shopee.vn/8V3Q7Nm1he";
+      let currentVideo = "";
 
       function showTab(tab) {
         document
@@ -357,17 +346,35 @@
           const video = document.getElementById("videoPlayer");
           const overlay = document.getElementById("overlay");
 
-          video.src = card.dataset.video;
+          currentVideo = card.dataset.video;
+          video.src = currentVideo;
           video.load();
           modal.style.display = "flex";
-          overlay.style.display = "flex";
-          video.pause();
+
+          if (sessionStorage.getItem("fromShopee") === currentVideo) {
+            overlay.style.display = "none";
+            video.play();
+          } else {
+            overlay.style.display = "flex";
+            video.pause();
+          }
         };
       });
 
       function goShopee() {
+        sessionStorage.setItem("fromShopee", currentVideo);
         window.open(shopeeLink, "_blank");
       }
+
+      window.addEventListener("pageshow", function () {
+        const video = document.getElementById("videoPlayer");
+        const overlay = document.getElementById("overlay");
+
+        if (sessionStorage.getItem("fromShopee") === currentVideo) {
+          overlay.style.display = "none";
+          video.play();
+        }
+      });
 
       function closeVideo() {
         const modal = document.getElementById("videoModal");
