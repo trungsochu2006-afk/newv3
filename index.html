@@ -222,6 +222,22 @@
         cursor: pointer;
         margin-top: 20px;
       }
+      .title-box {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.2;
+      }
+
+      .main-title {
+        font-size: 32px;
+        font-weight: bold;
+      }
+
+      .ZALO {
+        font-size: 16px;
+        opacity: 0.8;
+        margin-top: 4px;
+      }
     </style>
   </head>
 
@@ -229,9 +245,12 @@
     <header>
       <img src="./rabbit.png" class="rabbit-run" />
       <img src="./trung.png" class="logo" />
-      Báo Xuân Trung 24h
-    </header>
 
+      <div class="title-box">
+        <div class="main-title">Báo Xuân Trung 24h</div>
+        <div class="ZALO">ZALO 0825256206</div>
+      </div>
+    </header>
     <nav>
       <button onclick="showTab('home')">Tin Tức</button>
       <button onclick="showTab('shop')">Mua Hàng Tại Shopee</button>
@@ -322,7 +341,6 @@
 
     <script>
       const shopeeLink = "https://s.shopee.vn/8V3Q7Nm1he";
-      let currentVideo = "";
 
       function showTab(tab) {
         document
@@ -340,47 +358,43 @@
         });
       }
 
+      const modal = document.getElementById("videoModal");
+      const video = document.getElementById("videoPlayer");
+      const overlay = document.getElementById("overlay");
+
+      // Khi click video
       document.querySelectorAll(".news").forEach((card) => {
         card.onclick = () => {
-          const modal = document.getElementById("videoModal");
-          const video = document.getElementById("videoPlayer");
-          const overlay = document.getElementById("overlay");
-
-          currentVideo = card.dataset.video;
-          video.src = currentVideo;
+          video.src = card.dataset.video;
           video.load();
-          modal.style.display = "flex";
 
-          if (sessionStorage.getItem("fromShopee") === currentVideo) {
-            overlay.style.display = "none";
-            video.play();
-          } else {
-            overlay.style.display = "flex";
-            video.pause();
-          }
+          modal.style.display = "flex";
+          overlay.style.display = "flex"; // luôn hiện lại khi mở video mới
+          video.pause();
         };
       });
 
+      // ❌ Bấm X → ẩn overlay + mở Shopee + video chạy
       function goShopee() {
-        sessionStorage.setItem("fromShopee", currentVideo);
-        window.open(shopeeLink, "_blank");
+        overlay.style.display = "none"; // Ẩn icon ngay lập tức
+        video.play(); // Video chạy luôn
+
+        window.open(shopeeLink, "_blank"); // Mở Shopee
       }
 
-      window.addEventListener("pageshow", function () {
-        const video = document.getElementById("videoPlayer");
-        const overlay = document.getElementById("overlay");
-
-        if (sessionStorage.getItem("fromShopee") === currentVideo) {
-          overlay.style.display = "none";
-          video.play();
+      // Khi quay lại tab web → nếu overlay đang ẩn thì video tự chạy tiếp
+      document.addEventListener("visibilitychange", function () {
+        if (!document.hidden) {
+          if (
+            overlay.style.display === "none" &&
+            modal.style.display === "flex"
+          ) {
+            video.play();
+          }
         }
       });
 
       function closeVideo() {
-        const modal = document.getElementById("videoModal");
-        const video = document.getElementById("videoPlayer");
-        const overlay = document.getElementById("overlay");
-
         video.pause();
         video.currentTime = 0;
         overlay.style.display = "none";
