@@ -1,11 +1,9 @@
-
 <!doctype html>
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Báo Xuân Trung 24h
-    </title>
+    <title>Báo Xuân Trung 24h</title>
 
     <style>
       body {
@@ -13,24 +11,51 @@
         font-family: "Segoe UI", sans-serif;
         background: #eef1f7;
       }
-video{
-   width:100%;
-   max-height:80vh;
-   object-fit:contain;
-}
+
       /* HEADER */
       header {
-  background: #0a1f44;
-  color: white;
-  padding: 20px;
-  font-size: 32px;
+        background: #0a1f44;
+        color: white;
+        padding: 20px;
+        font-size: 32px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        position: relative; /* thêm */
+        overflow: hidden; /* thêm */
+      }
 
-  /* thêm 3 dòng này */
-  display:flex;
-  align-items:center;
-  gap:15px;
-}
+      .logo {
+        width: 65px;
+        height: 65px;
+        object-fit: contain;
+      }
 
+      /* 🐰 CON THỎ CHẠY */
+      .rabbit-run {
+        position: absolute;
+        top: 5px;
+        width: 60px;
+        animation: rabbitRun 8s linear infinite;
+      }
+
+      @keyframes rabbitRun {
+        0% {
+          left: -80px;
+          transform: scaleX(1);
+        }
+        50% {
+          left: calc(100% - 60px);
+          transform: scaleX(1);
+        }
+        51% {
+          transform: scaleX(-1);
+        }
+        100% {
+          left: -80px;
+          transform: scaleX(-1);
+        }
+      }
 
       /* NAV */
       nav {
@@ -46,33 +71,17 @@ video{
         margin-right: 18px;
         cursor: pointer;
       }
-.logo{
-    width: 65px;
-    height:65px;
-    object-fit:contain;
-}
+
       nav button:hover {
         color: #ffd700;
       }
-      /* BACK BUTTON */
-      .back-btn {
-        position: absolute;
-        top: 25px;
-        left: 25px;
-        z-index: 10000;
-        background: #0a1f44;
-        color: white;
-        border: none;
-        padding: 12px 18px;
-        font-size: 16px;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: 0.3s;
-      }
 
-      .back-btn:hover {
-        background: #ffd700;
-        color: black;
+      /* TAB */
+      .section {
+        display: none;
+      }
+      .active {
+        display: block;
       }
 
       /* SEARCH */
@@ -103,14 +112,6 @@ video{
         cursor: pointer;
       }
 
-      /* TAB */
-      .section {
-        display: none;
-      }
-      .active {
-        display: block;
-      }
-
       /* GRID */
       .grid {
         display: grid;
@@ -123,7 +124,7 @@ video{
       .card {
         background: white;
         border-radius: 14px;
-        overflow: visible;
+        overflow: hidden;
         cursor: pointer;
         transition: 0.3s;
       }
@@ -131,6 +132,13 @@ video{
       .card:hover {
         transform: translateY(-8px);
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .card video {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        pointer-events: none;
       }
 
       .card img {
@@ -161,7 +169,7 @@ video{
         font-size: 13px;
       }
 
-      /* VIDEO MODAL */
+      /* MODAL */
       .modal {
         position: fixed;
         top: 0;
@@ -175,13 +183,21 @@ video{
         z-index: 999;
       }
 
-      .modal video {
-        width: 80%;
-        max-width: 900px;
-        border-radius: 12px;
+      .back-btn {
+        position: absolute;
+        top: 25px;
+        left: 25px;
+        z-index: 10000;
+        background: #0a1f44;
+        color: white;
+        border: none;
+        padding: 12px 18px;
+        font-size: 16px;
+        border-radius: 10px;
+        cursor: pointer;
       }
 
-      /* 🔥 OVERLAY SHOPEE */
+      /* OVERLAY */
       .overlay {
         position: absolute;
         top: 0;
@@ -196,198 +212,79 @@ video{
         gap: 20px;
       }
 
-      .overlay img {
-        width: 220px;
+      .shopeeicon {
+        width: 280px;
+        height: 280px;
+        object-fit: cover;
+        box-shadow: 0 0 40px rgba(255, 80, 50, 0.7);
+        border: 10px solid white;
+        border-radius: 20px;
       }
 
       .tick-btn {
-  position: absolute;
-  top: -35px;
-  right: -35px;
-
-  font-size: 45px;
-  background: #ff3b30;
-  color: white;
-  border: none;
-
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-
-  cursor: pointer;
-  transition: 0.25s;
-  font-weight: bold;
-}
-
-.tick-btn:hover {
-  transform: scale(1.2);
-}
-
-
-      .tick-btn:hover {
-        transform: scale(1.1);
+        font-size: 45px;
+        background: #ff3b30;
+        color: white;
+        border: none;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        cursor: pointer;
+        margin-top: 20px;
       }
-      .shopee-box {
-       position: relative;
-           }
-      .shopeeicon {
-  width: 320px;   /* tăng size */
-  height: 320px;
-  object-fit: cover;
-box-shadow: 0 0 40px rgba(255, 80, 50, 0.7);
-
-  /* tạo lục giác */
-  clip-path: polygon(
-    25% 5%, 
-    75% 5%, 
-    100% 50%, 
-    75% 95%, 
-    25% 95%, 
-    0% 50%
-  );
-
-  border: 12px solid white;
-}
-header{
-  position: relative;
-  overflow: hidden; /* quan trọng để thỏ không tràn */
-}
-
-/* ===== CON THỎ CHẠY ===== */
-
-.rabbit-run{
-  position: absolute;
-  top: 5px;
-  width: 60px;
-
-  animation: rabbitRun 8s linear infinite;
-}
-
-@keyframes rabbitRun{
-
-  0%{
-    left:-80px;
-    transform: scaleX(1);
-  }
-
-  50%{
-    left: calc(100% - 60px);
-    transform: scaleX(1);
-  }
-
-  51%{
-    transform: scaleX(-1);
-  }
-
-  100%{
-    left: -100px;px;
-    transform: scaleX(-1);
-  }
-}
-/* KHUNG CHẠY */
-.ghost-runner{
-    width:100%;
-    height:70px;
-    position:relative;
-    overflow:hidden;
-    background:transparent;
-}
-
-/* CON MA */
-.ghost{
-    position:absolute;
-    width:65px;
-
-    animation: ghostMove 12s linear infinite;
-}
-
-/* chạy qua lại chậm */
-@keyframes ghostMove{
-
-    0%{
-        left:-80px;
-        transform: scaleX(1);
-    }
-
-    50%{
-        left: calc(100% - 80px);
-        transform: scaleX(1);
-    }
-
-    51%{
-        transform: scaleX(-1); /* quay đầu */
-    }
-
-    100%{
-        left:-80px;
-        transform: scaleX(-1);
-    }
-}
-
-
-
-
     </style>
   </head>
 
   <body>
-   <header>
+    <header>
+      <!-- 🐰 THỎ -->
+      <img src="./rabbit.png" class="rabbit-run" />
 
-   <!-- ✅ CON THỎ -->
-   <img src="./rabbit.png" class="rabbit-run">
-
-   <img src="./trung.png" class="logo">
-   Báo Xuân Trung 23.5h
-
-</header>
-
-
-
+      <img src="./trung.png" class="logo" />
+      Báo Xuân Trung 24h
+    </header>
 
     <nav>
       <button onclick="showTab('home')">Tin Tức</button>
       <button onclick="showTab('shop')">Mua Hàng Tại Shopee</button>
     </nav>
-    <div class="ghost-runner">
-   <img src="./ghost.png" class="ghost">
-</div>
-
 
     <!-- HOME -->
     <div id="home" class="section active">
       <div class="search-box">
-        <input id="newsSearch" placeholder="Tìm kiếm tin tức đi nè .." />
+        <input id="newsSearch" placeholder="Tìm kiếm tin tức..." />
         <button onclick="searchNews()">Search</button>
       </div>
 
-      <div class="grid" id="newsGrid">
+      <div class="grid">
         <div class="card news" data-video="./tainan12thag2.mp4">
-          <img src="./tainan12thg2.png" />
+          <video
+            src="./tainan12thag2.mp4"
+            autoplay
+            muted
+            loop
+            playsinline
+          ></video>
           <h3>Video Tai nạn thảm khốc</h3>
-          <p>Click để xem video.</p>
+          <p>Bấm để xem video toàn cảnh full màn hình.</p>
         </div>
 
         <div class="card news" data-video="./thattinh.mp4">
-          <img src="./thattinh1.png" />
-          <h3>Cô gái thất tình</h3>
-          <p>Click để xem video.</p>
+          <video src="./thattinh.mp4" autoplay muted loop playsinline></video>
+          <h3>Cô gái thất tình ở khu công nghiệp.</h3>
+          <p>Bấm để xem video toàn cảnh full man hình.</p>
         </div>
 
         <div class="card news" data-video="./phaono.mp4">
-          <img src="./nophao.png" />
-          <h3>Sau tiếng nổ lớn</h3>
-          <p>Click để xem video.</p>
+          <video src="./phaono.mp4" autoplay muted loop playsinline></video>
+          <h3>Khung cảnh tan hoang Sau tiếng nổ lớn tại hưng yên</h3>
+          <p>Bấm để xem video toàn cảnh full màn hình.</p>
         </div>
       </div>
     </div>
 
     <!-- SHOP -->
     <div id="shop" class="section">
-      <div class="search-box">
-        <input id="productSearch" placeholder="Tìm sản phẩm..." />
-        <button onclick="searchProduct()">Search</button>
-      </div>
-
       <div class="grid">
         <div
           class="card product"
@@ -398,65 +295,55 @@ header{
           <p class="price">36.000đ</p>
           <span class="voucher">Giảm 36%</span>
         </div>
-
         <div
           class="card product"
-          onclick="window.open('https://s.shopee.vn/6VILjC730D', '_blank')"
+          onclick="window.open('https://s.shopee.vn/2B9MZ8tBUe', '_blank')"
         >
-          <img src="./denmakita.png" />
-          <h3>Đèn Cắm Pin Makita</h3>
-          <p class="price">288.000đ</p>
-          <span class="voucher">Giảm 18%</span>
+          <img src="./denchieusang.png" />
+          <h3>Đèn Pin Cầm Tay 9 chức năng</h3>
+          <p class="price">36.000đ</p>
+          <span class="voucher">Giảm 36%</span>
         </div>
       </div>
     </div>
 
-    <!-- VIDEO -->
+    <!-- VIDEO MODAL -->
     <div class="modal" id="videoModal">
       <button class="back-btn" onclick="closeVideo()">← Trang chủ</button>
 
       <video
-  id="videoPlayer"
-  controls
-  muted
-  playsinline
-  webkit-playsinline
-  x5-playsinline
-  x5-video-player-type="h5"
-  x5-video-player-fullscreen="false"
-  disablePictureInPicture
-  controlsList="nofullscreen"
-  style="width:100%;max-width:900px;max-height:80vh;object-fit:contain;"
-></video>
-
-
+        id="videoPlayer"
+        controls
+        muted
+        playsinline
+        controlsList="nofullscreen noremoteplayback"
+        disablePictureInPicture
+        style="
+          width: 100%;
+          max-width: 900px;
+          max-height: 80vh;
+          object-fit: contain;
+        "
+      ></video>
 
       <div class="overlay" id="overlay">
-  <div class="shopee-box">
-    <img src="./shopeeicon.png" class="shopeeicon"/>
-
-    <button class="tick-btn" onclick="goShopee()">✖</button>
-  </div>
-</div>
+        <img src="./shopeeicon.png" class="shopeeicon" />
+        <button class="tick-btn" onclick="goShopee()">X</button>
+      </div>
+    </div>
 
     <script>
       const shopeeLink = "https://s.shopee.vn/8V3Q7Nm1he";
 
-      let overlayShown = false;
-
-      /* TAB */
       function showTab(tab) {
         document
           .querySelectorAll(".section")
           .forEach((s) => s.classList.remove("active"));
-
         document.getElementById(tab).classList.add("active");
       }
 
-      /* SEARCH */
       function searchNews() {
         let keyword = document.getElementById("newsSearch").value.toLowerCase();
-
         document.querySelectorAll(".news").forEach((card) => {
           card.style.display = card.innerText.toLowerCase().includes(keyword)
             ? "block"
@@ -464,64 +351,24 @@ header{
         });
       }
 
-      function searchProduct() {
-        let keyword = document
-          .getElementById("productSearch")
-          .value.toLowerCase();
-
-        document.querySelectorAll(".product").forEach((card) => {
-          card.style.display = card.innerText.toLowerCase().includes(keyword)
-            ? "block"
-            : "none";
-        });
-      }
-
-      /* CLICK NEWS */
       document.querySelectorAll(".news").forEach((card) => {
         card.onclick = () => {
           const modal = document.getElementById("videoModal");
           const video = document.getElementById("videoPlayer");
           const overlay = document.getElementById("overlay");
 
-          overlay.style.display = "none";
-          overlayShown = false;
-
           video.src = card.dataset.video;
           video.load();
-
           modal.style.display = "flex";
-
-          video.currentTime = 0;
-          video.play();
+          overlay.style.display = "flex";
+          video.pause();
         };
       });
 
-      /* HIỆN OVERLAY SAU 8S */
-      const video = document.getElementById("videoPlayer");
-
-      video.addEventListener("timeupdate", function () {
-        if (video.currentTime >= 8 && !overlayShown) {
-          overlayShown = true;
-
-          video.pause();
-
-          document.getElementById("overlay").style.display = "flex";
-        }
-      });
-
-      /* CLICK SHOPEE */
       function goShopee() {
-        const video = document.getElementById("videoPlayer");
-        const overlay = document.getElementById("overlay");
-
-        overlay.style.display = "none";
-
-        /* mở tab */
         window.open(shopeeLink, "_blank");
-
-        /* chạy tiếp video */
-        video.play();
       }
+
       function closeVideo() {
         const modal = document.getElementById("videoModal");
         const video = document.getElementById("videoPlayer");
@@ -529,26 +376,10 @@ header{
 
         video.pause();
         video.currentTime = 0;
-
         overlay.style.display = "none";
-        overlayShown = false;
-
         modal.style.display = "none";
-
-        // 👉 đảm bảo quay về HOME
         showTab("home");
       }
-
-      /* Khi quay lại tab -> video chạy tiếp */
-      window.addEventListener("focus", () => {
-        const video = document.getElementById("videoPlayer");
-        const overlay = document.getElementById("overlay");
-
-        if (overlayShown) {
-          overlay.style.display = "none";
-          video.play();
-        }
-      });
     </script>
   </body>
 </html>
